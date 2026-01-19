@@ -1,2 +1,5 @@
 [Server thread/INFO]: Done (12.345s)! For help, type "help"
 
+[Server thread/ERROR]: Encountered an unexpected exception
+
+[Server thread/INFO]: Stopping server
