@@ -60,5 +60,5 @@ async def UserSpeaker(member):
 async def hello(ctx):
     await ctx.send(f"Hello {ctx.author.mention}!")
 
-text = read_log()
+# text = read_log()
 bot.run(token, log_handler=handler, log_level=logging.DEBUG)

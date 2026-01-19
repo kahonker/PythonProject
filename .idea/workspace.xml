@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2c66a63a-fe09-4d2d-9da8-cb23a8b550da" name="更改" comment="更改">
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+    <list default="true" id="2c66a63a-fe09-4d2d-9da8-cb23a8b550da" name="更改" comment="更改1">
+      <change afterPath="$PROJECT_DIR$/example of the log lines i should be noticing" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/discord.log" beforeDir="false" afterPath="$PROJECT_DIR$/discord.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
@@ -77,7 +77,7 @@
       <option name="presentableId" value="Default" />
       <updated>1768801261561</updated>
       <workItem from="1768806176963" duration="4697000" />
-      <workItem from="1768846074459" duration="1180000" />
+      <workItem from="1768846074459" duration="2156000" />
     </task>
     <task id="LOCAL-00001" summary="更改">
       <option name="closed" value="true" />
@@ -87,7 +87,23 @@
       <option name="project" value="LOCAL" />
       <updated>1768846497073</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="更改">
+      <option name="closed" value="true" />
+      <created>1768847346536</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1768847346536</updated>
+    </task>
+    <task id="LOCAL-00003" summary="更改1">
+      <option name="closed" value="true" />
+      <created>1768847609852</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1768847609852</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -95,9 +111,10 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="更改" />
-    <option name="LAST_COMMIT_MESSAGE" value="更改" />
+    <MESSAGE value="更改1" />
+    <option name="LAST_COMMIT_MESSAGE" value="更改1" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/PythonProject$main.coverage" NAME="main Coverage Results" MODIFIED="1768847234241" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PythonProject$main.coverage" NAME="main Coverage Results" MODIFIED="1768847928219" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
