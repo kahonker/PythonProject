@@ -11,10 +11,11 @@ Minecraft_Log = r"C:\Users\yuhao\Documents\server\server.log"
 
 load_dotenv()
 token = os.getenv('DISCORD_TOKEN')
-ServerIsOn = False;
+ServerIsOn = False
 handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
 intents = discord.Intents.default()
 intents.message_content = True
+intents.members = True  # REQUIRED
 
 bot = commands.Bot(command_prefix='!', intents=intents)
 
@@ -40,8 +41,12 @@ async def on_message(message):
     await bot.process_commands(message)
 
 @bot.command()
-async def dm(ctx, *, msg):
-    await ctx.author.send(f"You said {msg}")
+async def dm(ctx, user: discord.User, *, msg):
+    try:
+        await user.send(msg)
+        await ctx.send("DM sent!")
+    except discord.Forbidden:
+        await ctx.send("I can't DM that user.")
 
 @bot.command()
 async def LaunchCheck(ctx):
@@ -55,5 +60,5 @@ async def UserSpeaker(member):
 async def hello(ctx):
     await ctx.send(f"Hello {ctx.author.mention}!")
 
+# text = read_log()
 bot.run(token, log_handler=handler, log_level=logging.DEBUG)
-text = read_log()
