@@ -3,8 +3,7 @@ from discord.ext import commands
 import logging
 import threading
 from fastapi import FastAPI, Request
-from fastapi.dependencies.utils import request_body_to_args
-
+import asyncio
 from server_management import check_server_status
 from dotenv import load_dotenv
 import os
@@ -16,7 +15,7 @@ Minecraft_Log = r"C:\Users\yuhao\Documents\server\server.log"
 
 
 GUILD_ID = "1462632241585979394"
-LOG_CHANNEL_ID = "1462636342881161237"
+LOG_CHANNEL_ID = 1462636342881161237
 load_dotenv()
 token = os.getenv('DISCORD_TOKEN')
 ServerIsOn = False
@@ -27,6 +26,8 @@ intents.members = True  # REQUIRED
 
 bot = commands.Bot(command_prefix='!', intents=intents)
 
+
+app = FastAPI()
 
 def read_log():
     with open(Minecraft_Log, "r", encoding="utf-8") as f:
@@ -58,6 +59,7 @@ async def dm(ctx, user: discord.User, *, msg):
 
 @bot.command()
 async def check_status(ctx): # renamed LaunchCheck to check_status for python conventions
+    print("checking")
     status = check_server_status()
     if status:
         await ctx.send("🟩 The server is on")
@@ -72,13 +74,18 @@ async def UserSpeaker(member):
 async def hello(ctx):
     await ctx.send(f"Hello {ctx.author.mention}!")
 
-app = FastAPI()
 
 
 @app.post("/log_message")
 async def send_log_message(request: Request):
-    body = request.get("message")
-    await bot.get_guild(GUILD_ID).get_channel(LOG_CHANNEL_ID).send(body)
+    try:
+        payload = await request.json()
+        body = payload.get("data", "")
+        channel = bot.get_channel(LOG_CHANNEL_ID)
+        asyncio.run_coroutine_threadsafe(channel.send(body), bot.loop)
+    except Exception as e:
+        print(e)
+
 
 # text = read_log()
 
@@ -89,4 +96,4 @@ def run_bot():
 if __name__ == "__main__":
     bot_thread = threading.Thread(target=run_bot)
     bot_thread.start()
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    uvicorn.run(app, host="192.168.12.176", port=8000)
