@@ -4,7 +4,7 @@ import logging
 import threading
 from fastapi import FastAPI, Request
 import asyncio
-from server_management import check_server_status
+from server_management import check_server_status, server_start
 from dotenv import load_dotenv
 import os
 import uvicorn
@@ -18,7 +18,7 @@ GUILD_ID = "1462632241585979394"
 LOG_CHANNEL_ID = 1462636342881161237
 load_dotenv()
 token = os.getenv('DISCORD_TOKEN')
-ServerIsOn = False
+server_starting = False
 handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
 intents = discord.Intents.default()
 intents.message_content = True
@@ -57,14 +57,37 @@ async def dm(ctx, user: discord.User, *, msg):
     except discord.Forbidden:
         await ctx.send("I can't DM that user.")
 
+
+@bot.command()
+async def start_server(ctx):
+    global server_starting
+    if check_server_status() or server_starting:
+        await ctx.send("The server is already started")
+        return
+
+    server_start()
+
+    server_starting = True
+
+    await ctx.send("Starting server")
+
+
+
 @bot.command()
 async def check_status(ctx): # renamed LaunchCheck to check_status for python conventions
-    print("checking")
+    global server_starting
     status = check_server_status()
     if status:
-        await ctx.send("🟩 The server is on")
+        server_starting = False
+        message = "🟩 The server is on "
+        if status.players.sample is not None:
+            message += "\nPlayers online:"
+            for player in status.players.sample:
+                message += "\n" + player.name
+        await ctx.send(message)
     else:
         await ctx.send("🟥 The server is off, or there was a problem connecting to it") # changed the messages
+
 
 @bot.command()
 async def UserSpeaker(member):
