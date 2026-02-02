@@ -8,6 +8,8 @@ from server_management import check_server_status, server_start
 from dotenv import load_dotenv
 import os
 import uvicorn
+import re
+
 Minecraft_Log = r"C:\Users\yuhao\Documents\server\server.log"
 
 "hey Alexy, look here look here look here look here look here look here look here look here look here look here look here"
@@ -48,6 +50,9 @@ async def on_message(message):
         await message.channel.send(f"{message.author.mention} - dont use that word!")
 
     await bot.process_commands(message)
+
+@bot.event
+async def InGameChatHadMentionedSomeOne(message):
 
 @bot.command()
 async def dm(ctx, user: discord.User, *, msg):
@@ -105,6 +110,13 @@ async def send_log_message(request: Request):
         payload = await request.json()
         body = payload.get("data", "")
         channel = bot.get_channel(LOG_CHANNEL_ID)
+        if re.search(r"(\[\d{2}:\d{2}:\d{2}\])\s*\[.*?/INFO\]:\s*(.*)", body):  # pattern == [HH:MM:SS][Server/Thread]<username> speech
+            time_part = match.group(1)
+            message_part = match.group(2)
+            if re.search(r"achievement \[(.*?)\]", message_part):
+            messageToSend =match.group(1) +0xFFD700+ match.group(2)
+        else:
+            messageToSend = body
         asyncio.run_coroutine_threadsafe(channel.send(body), bot.loop)
     except Exception as e:
         print(e)
