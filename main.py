@@ -110,11 +110,20 @@ async def send_log_message(request: Request):
         payload = await request.json()
         body = payload.get("data", "")
         channel = bot.get_channel(LOG_CHANNEL_ID)
-        if re.search(r"(\[\d{2}:\d{2}:\d{2}\])\s*\[.*?/INFO\]:\s*(.*)", body):  # pattern == [HH:MM:SS][Server/Thread]<username> speech
+        if re.search(r"(\[\d{2}:\d{2}:\d{2}\])\s*\[.*?/INFO\]:\s*(.*)", body):  # pattern == [HH:MM:SS][Server/Thread] wut ever
             time_part = match.group(1)
             message_part = match.group(2)
-            if re.search(r"achievement \[(.*?)\]", message_part):
-            messageToSend =match.group(1) +0xFFD700+ match.group(2)
+            if re.search(r"achievement \[(.*?)\]", message_part): #...achievement [title]
+                messageToSend = time_part + "\n" + discord.Embed(
+                    title="Achievement!",
+                    description=match.group(2),
+                    color=discord.Color.gold()
+                )
+            elif re.match(r'^<([^>]+)>\s*(.+)$', message): #<username> speech
+                username = match.group(1)
+                speech = match.group(2)
+                messageToSend = time_part + f"\033[36m{username}\033[0m " +0xFFD700+ speech
+                if
         else:
             messageToSend = body
         asyncio.run_coroutine_threadsafe(channel.send(body), bot.loop)
