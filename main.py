@@ -25,6 +25,10 @@ handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w'
 intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True  # REQUIRED
+Alexy_ID
+Yuhao_ID
+ZhiXuan_ID
+
 
 bot = commands.Bot(command_prefix='!', intents=intents)
 
@@ -50,9 +54,6 @@ async def on_message(message):
         await message.channel.send(f"{message.author.mention} - dont use that word!")
 
     await bot.process_commands(message)
-
-@bot.event
-async def InGameChatHadMentionedSomeOne(message):
 
 @bot.command()
 async def dm(ctx, user: discord.User, *, msg):
@@ -113,17 +114,18 @@ async def send_log_message(request: Request):
         if re.search(r"(\[\d{2}:\d{2}:\d{2}\])\s*\[.*?/INFO\]:\s*(.*)", body):  # pattern == [HH:MM:SS][Server/Thread] wut ever
             time_part = match.group(1)
             message_part = match.group(2)
-            if re.search(r"achievement \[(.*?)\]", message_part): #...achievement [title]
+            if re.match(r'^<([^>]+)>\s*(.+)$', message):  # <username> speech
+                username = match.group(1)
+                speech = match.group(2)
+                messageToSend = time_part + f"\033[36m{username}\033[0m " + 0xFFD700 + speech
+                if re.match(r"alexy") or re.match(r"Alexy") or re.match(r"kahonker"):
+                    mention
+            elif re.search(r"achievement \[(.*?)\]", message_part): #...achievement [title]
                 messageToSend = time_part + "\n" + discord.Embed(
                     title="Achievement!",
                     description=match.group(2),
                     color=discord.Color.gold()
                 )
-            elif re.match(r'^<([^>]+)>\s*(.+)$', message): #<username> speech
-                username = match.group(1)
-                speech = match.group(2)
-                messageToSend = time_part + f"\033[36m{username}\033[0m " +0xFFD700+ speech
-                if
         else:
             messageToSend = body
         asyncio.run_coroutine_threadsafe(channel.send(body), bot.loop)
