@@ -103,7 +103,9 @@ async def UserSpeaker(member):
 async def hello(ctx):
     await ctx.send(f"Hello {ctx.author.mention}!")
 
-
+@bot.command()
+async def myid(ctx):
+    await ctx.send(f"Your ID is {ctx.author.id}")
 
 @app.post("/log_message")
 async def send_log_message(request: Request):
@@ -111,16 +113,24 @@ async def send_log_message(request: Request):
         payload = await request.json()
         body = payload.get("data", "")
         channel = bot.get_channel(LOG_CHANNEL_ID)
-        if re.search(r"(\[\d{2}:\d{2}:\d{2}\])\s*\[.*?/INFO\]:\s*(.*)", body):  # pattern == [HH:MM:SS][Server/Thread] wut ever
+        match =re.search(r"(\[\d{2}:\d{2}:\d{2}\])\s*\[.*?/INFO\]:\s*(.*)", body)
+        if match:  # pattern == [HH:MM:SS][Server/Thread] wut ever
             time_part = match.group(1)
             message_part = match.group(2)
-            if re.match(r'^<([^>]+)>\s*(.+)$', message):  # <username> speech
+            matchChat = re.match(r'^<([^>]+)>\s*(.+)$', message)
+            matchAchieve = re.search(r"achievement \[(.*?)\]", message_part)
+            if matchChat:  # <username> speech
                 username = match.group(1)
                 speech = match.group(2)
                 messageToSend = time_part + f"\033[36m{username}\033[0m " + 0xFFD700 + speech
-                if re.match(r"alexy") or re.match(r"Alexy") or re.match(r"kahonker"):
-                    mention
-            elif re.search(r"achievement \[(.*?)\]", message_part): #...achievement [title]
+                if re.match(r"@alexy") or re.match(r"@Alexy") or re.match(r"@kahonker"):
+                    await channel.send(f"{Alexy_ID.mention}!")
+                if re.match(r"@ZX") or re.match(r"@ZhiXuan") or re.match("@zhixuan"):
+                    await channel.send(f"{ZhiXuan_ID.mention}!")
+                if re.match(r"@Yuhao") or re.match(r"@yuhao") or re.match("@muyu"):
+                    await channel.send(f"{Yuhao_ID.mention}!")
+                channel.send(f"{messageToSend}")
+            elif matchAchieve: #...achievement [title]
                 messageToSend = time_part + "\n" + discord.Embed(
                     title="Achievement!",
                     description=match.group(2),
