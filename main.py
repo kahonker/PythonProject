@@ -1,5 +1,5 @@
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
 import logging
 import threading
 from fastapi import FastAPI, Request
@@ -29,6 +29,11 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 
 
 app = FastAPI()
+
+
+@tasks.loop(minutes=5.0)
+async def looping():
+    print("Hello World")
 
 def read_log():
     with open(Minecraft_Log, "r", encoding="utf-8") as f:
@@ -129,4 +134,4 @@ def run_bot():
 if __name__ == "__main__":
     bot_thread = threading.Thread(target=run_bot)
     bot_thread.start()
-    uvicorn.run(app, host="192.168.12.176", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 8000)))
