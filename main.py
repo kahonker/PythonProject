@@ -35,6 +35,11 @@ app = FastAPI()
 async def looping():
     print("Hello World")
 
+@bot.event
+async def on_ready():
+    print(f"Logged in as {bot.user}")
+    looping.start()
+
 def read_log():
     with open(Minecraft_Log, "r", encoding="utf-8") as f:
         return f.read()
