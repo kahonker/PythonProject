@@ -13,9 +13,10 @@ Minecraft_Log = r"C:\Users\yuhao\Documents\server\server.log"
 "hey Alexy, look here look here look here look here look here look here look here look here look here look here look here"
 "replace the path in the Log variable above to the \"latest_log\" in your minecraft server"
 
-
 GUILD_ID = "1462632241585979394"
 LOG_CHANNEL_ID = 1462636342881161237
+MAIN_CHANNEL_ID = 1462632242328240190
+
 load_dotenv()
 token = os.getenv('DISCORD_TOKEN')
 server_starting = False
@@ -106,6 +107,15 @@ async def send_log_message(request: Request):
         body = payload.get("data", "")
         channel = bot.get_channel(LOG_CHANNEL_ID)
         asyncio.run_coroutine_threadsafe(channel.send(body), bot.loop)
+    except Exception as e:
+        print(e)
+
+
+@app.post("/send_ip/{ip}")
+async def send_ip(ip):
+    try:
+        channel = bot.get_channel(MAIN_CHANNEL_ID)
+        asyncio.run_coroutine_threadsafe(channel.send(ip), bot.loop)
     except Exception as e:
         print(e)
 
